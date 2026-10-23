@@ -1,0 +1,22 @@
+<!-- Custom rules for the Internee.pk endpoint security task.
+     Append to /var/ossec/etc/rules/local_rules.xml on the Wazuh manager. -->
+
+<!-- Brute force: 3+ Windows logon failures (60122) within 2 minutes -->
+<group name="windows,custom,internee,">
+  <rule id="100100" level="12" frequency="3" timeframe="120">
+    <if_matched_sid>60122</if_matched_sid>
+    <description>Internee.pk: Possible brute force - 3+ failed logons in 2 minutes on $(agent.name)</description>
+    <mitre>
+      <id>T1110</id>
+    </mitre>
+  </rule>
+</group>
+
+<!-- Threat intel: FIM file added/modified whose MD5 is in the MalwareBazaar CDB list -->
+<group name="local,malware,internee,">
+  <rule id="100200" level="13">
+    <if_sid>554, 550</if_sid>
+    <list field="md5" lookup="match_key">etc/lists/malware-hashes</list>
+    <description>Internee.pk: Known malware hash (MalwareBazaar threat intel) detected: $(file)</description>
+  </rule>
+</group>

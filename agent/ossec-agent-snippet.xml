@@ -1,0 +1,11 @@
+<!-- Append to the end of C:\Program Files (x86)\ossec-agent\ossec.conf
+     (a second <ossec_config> block is allowed), then: Restart-Service WazuhSvc -->
+<ossec_config>
+  <localfile>
+    <location>Microsoft-Windows-Sysmon/Operational</location>
+    <log_format>eventchannel</log_format>
+  </localfile>
+  <syscheck>
+    <directories check_all="yes" realtime="yes" report_changes="yes">C:\InterneeData</directories>
+  </syscheck>
+</ossec_config>
